@@ -1,0 +1,54 @@
+{
+  "task": "task_name"  //  task's name | e.g., networkname_lossname_trainingset_trainingdatasetname
+  , "model": "plain" // default: "plain"
+  , "gpu_ids": [0] // which GPU(s) is/are used | default: 0
+  , "epoch_num": 10000000  // how many epochs are used in training | how to calculate: max_iter_num / (dataset_len // batch_size)
+  , "sleep_time": 0  // default: 0
+  , "n_channels": 1  // channel of the input images | default: 1 for gray image
+  , "dataroot": "D:\\DATA\\CellTrainingDataset\\"
+  ,
+  "path": {
+    "root": "D:\\DATA\\where_to_save"    // where to save
+    , "pretrained_network": null      // path of pretrained model | default: null
+  }
+
+  , "datasets": {
+    "train": {
+      "name": "train_dataset"           // just a name. do not modify.
+      , "dataset_type": "plain"         // default: "plain"
+      , "patchsize": 256                   // patch size for random crop | more than 256 (in general)
+      , "dataloader_shuffle": true      // default: "true"
+      , "dataloader_num_workers": 1    // how many cpu threads are used to extract and pre-process the dataset
+      , "dataloader_batch_size": 1    // batch size | 1 if debugging code | 4~64 are often choosen
+    }
+    ,
+  "test": {
+      "name": "test_dataset"            // just a name. do not modify.
+      , "dataset_type": "plain"        // default: "plain"
+    }
+  }
+
+  , "network": {
+    "net_type": "unet" // "unet" | "fcn"
+    , "in_nc": 1        // input channel number
+
+    , "init_type": "orthogonal"    // "orthogonal" | "normal" | "uniform" | "xavier_normal" | "xavier_uniform" | "kaiming_normal" | "kaiming_uniform"
+    , "init_bn_type": "uniform"         // "uniform" | "constant"
+    , "init_gain": 0.2                  // weights init gain
+  }
+
+  , "train": {
+    "lossfn_type": "crossentropyloss" // "crossentropyloss"
+
+    , "optimizer_type": "adam"        // optimizer type | default: "adam"
+    , "optimizer_lr": 1e-4            // learning rate | default: beginning laerning rate
+
+    , "scheduler_type": "MultiStepLR" // default: "MultiStepLR"
+    , "scheduler_milestones": [100000, 200000] // decay step
+    , "scheduler_gamma": 0.1          // decay rate
+
+    , "checkpoint_test": 20           // for testing
+    , "checkpoint_save": 10000           // for saving model
+    , "checkpoint_print": 10           // for print
+  }
+}
